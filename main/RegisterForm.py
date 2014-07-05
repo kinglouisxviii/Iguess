@@ -1,8 +1,7 @@
-from django.shortcuts import render_to_response
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 import re
-from main.models import User
+from django.contrib.auth.models import User
 # Create your views here.
 # Register##############
 class RegisterForm(forms.Form):
@@ -12,7 +11,7 @@ class RegisterForm(forms.Form):
 	password2 = forms.CharField(widget = forms.PasswordInput)
 ########################
 #check validity
-	def clean_user(self):
+	def clean_username(self):
 		username = self.cleaned_data['username']
 		if not re.search(r'^\w+$', username):
 			raise forms.ValidationError('Only letters, numbers and underline can be included!')
