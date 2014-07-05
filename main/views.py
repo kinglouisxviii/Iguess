@@ -9,15 +9,17 @@ from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 def register(request):
+	error = {}
 	if request.method == 'POST':
 		form = RegisterForm(request.POST)
+		error = form.errors
 		if form.is_valid():
-			confirm = User(name = form.cleaned_data['username'], email = form.cleaned_data['email'], password = hashlib.sha1(form.cleaned_data['password2']).hexdigest(), totalwin = 0, totalgame = 0, percent = 0, times_today = 0)
+			confirm = User(username = form.cleaned_data['username'], email = form.cleaned_data['email'], password = hashlib.sha1(form.cleaned_data['password2']).hexdigest(), totalwin = 0, totalgame = 0, percent = 0.0, times_today = 0)
 			confirm.save()
 			return HttpResponseRedirect('/login/')
 	else:
 		form = RegisterForm()
-	return render_to_response('register.html', {'form': form})
+	return render_to_response('register.html',{'error': error})
 
 class login_form(forms.Form):
 	username = forms.CharField(max_length = 16)
@@ -25,7 +27,6 @@ class login_form(forms.Form):
 
 
 def login_view(request):
-	success = False
 	username = ''
 	password = ''
 	if request.method == 'POST':	
@@ -33,7 +34,12 @@ def login_view(request):
 		if form.is_valid():
 			username = form.cleaned_data['username']
 			password = hashlib.sha1(form.cleaned_data['password']).hexdigest()
-			success = True
+			user = User.objects.filter(username = username, password = password)
+			if user:
+				return HttpResponseRedirect('/index/')
 	else:
 		form = login_form()
-	return render_to_response('login.html', {'success': success, 'username': username, 'password': password})
+	return render_to_response('login.html')
+
+def index(request):
+	return render_to_response('index.html')

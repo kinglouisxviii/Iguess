@@ -4,7 +4,7 @@ from django.db import models
 class User(models.Model):
 	"""docstring for User"""
 	email = models.EmailField()
-	name = models.CharField(max_length = 16)
+	username = models.CharField(max_length = 16)
 	times_today = models.IntegerField()
 	password = models.CharField(max_length = 40)
 	totalwin = models.IntegerField()

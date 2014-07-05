@@ -13,6 +13,11 @@
 		<li><label for="password2">Password Confirm: </label><input type="password" name="password2"></li>
 		<li><input type="submit" value="Submit"></li>
 	</ul>
+	<p>
+		Error here -> {% for k in error.items %}
+		<li>{{k}}</li>
+		{% endfor %}
+	</p>
 </form>
 
 </body>
