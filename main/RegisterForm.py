@@ -27,7 +27,7 @@ class RegisterForm(forms.Form):
 			User.objects.get(email = email)
 		except ObjectDoesNotExist:
 			return email
-		raise forms.ValidationError('Email registered')
+		raise forms.ValidationError('Email registered.')
 
 	def clean_password2(self):
 		if 'password1' in self.cleaned_data:
@@ -36,4 +36,4 @@ class RegisterForm(forms.Form):
 			if password1 == password2:
 				return password2
 			else:
-				raise forms.ValidationError('Passwords are not the same!')
+				raise forms.ValidationError('Passwords are not the same.')

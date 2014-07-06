@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from main.models import Player
 # Create your views here.
 def register(request):
-	error = {}
+	error = {'username': '', 'email': '', 'password2': ''}
 	if request.method == 'POST':
 		form = RegisterForm(request.POST)
 		error = form.errors
@@ -21,7 +21,7 @@ def register(request):
 			return HttpResponseRedirect('/login/')
 	else:
 		form = RegisterForm()
-	return render_to_response('register.html',{'error': error})
+	return render_to_response('register.html',{'error_user': error['username'], 'error_email': error['email'], 'error_password': error['password2']})
 
 def login_view(request):
 	error = False

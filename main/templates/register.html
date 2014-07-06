@@ -1,24 +1,46 @@
 <html>
 <head>
 	<title>Register</title>
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+<!-- 可选的Bootstrap主题文件（一般不用引入） -->
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+<style>
+	.errors{
+		color: #CC3300;
+	}
+</style>
 </head>
 <body>
-
+<div class="container">
 <form action="" method="post">
-	<ul style="list-style-type: none">
 		<h2>User register</h2>
-		<li><label for="username">Username: </label><input type="text" name="username"></li>
-		<li><label for="email">Email: </label><input type="text" name="email"></li>
-		<li><label for="password1">Password: </label><input type="password" name="password1"></li>
-		<li><label for="password2">Password Confirm: </label><input type="password" name="password2"></li>
-		<li><input type="submit" value="Submit"></li>
-	</ul>
-	<p>
-		Error here -> {% for k in error.items %}
-		<li>{{k}}</li>
-		{% endfor %}
-	</p>
+		<div class="form-group">
+			<label for="username">Username: </label><input type="text" name="username" placeholder="Enter your username here" class="form-control">
+			<span class="errors">{{error_user}}</span>
+		</div>
+		<div class="form-group">
+			<label for="email">Email: </label><input type="text" name="email" placeholder="Enter you email here" class="form-control">
+			<span class="errors">{{error_email}}</span>
+		</div>
+		<div class="form-group">
+			<label for="password1">Password: </label><input type="password" name="password1" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="password2">Password Confirm: </label><input type="password" name="password2" class="form-control">
+			<span class="errors">{{error_password}}</span>
+		</div>
+		<div class="form-group">
+			<input type="submit" value="Confirm and Submit" class="btn btn-primary btn-block">
+		</div>
 </form>
+</div>
 
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 </body>
 </html>
