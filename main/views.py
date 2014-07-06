@@ -52,14 +52,17 @@ def logout_view(request):
 	logout(request)
 	return render_to_response('index.html')
 
+class searchForm(forms.Form):
+	title = forms.CharField(max_length = 16, required=False)
+
 def index(request):
+	form = searchForm(request.GET)
 	topics = Topic.objects.filter(due__gte = datetime.now()).order_by('?')
 	if 'title' in request.GET:
 		title = request.GET['title']
 		topics = topics.filter(title__icontains=title)
-
 	topics = topics[:6]
-	return render(request, 'index.html', {'topics': topics})
+	return render(request, 'index.html', {'topics': topics, 'form': form},)
 
 def choose(request):
 	if request.method == 'POST':
