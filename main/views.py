@@ -7,6 +7,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from main.models import Player
+from main.models import Topic
+from datetime import datetime
+from main.models import Player_Topic
 # Create your views here.
 def register(request):
 	error = {}
@@ -50,4 +53,24 @@ def logout_view(request):
 	return render_to_response('index.html')
 
 def index(request):
+	topics = Topic.objects.filter(due__gte = datetime.now()).order_by('?')[:6]
 	return render(request, 'index.html')
+
+def choose(request):
+	if request.method == 'POST':
+		if request.user.is_authenticated():
+			user_id = request.user.id
+			topic_id = request.POST['id']
+			choice = request.POST['choice']
+			new = Player_Topic
+			new.user_id = user_id
+			new.topic_id = topic_id
+			new.choice = choice
+			new.save(commit = True)
+			return HttpResponseRedirect('/index/')
+		return HttpResponseRedirect('/login/', {'request': request})
+
+
+
+
+

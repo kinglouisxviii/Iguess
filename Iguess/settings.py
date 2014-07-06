@@ -58,11 +58,8 @@ WSGI_APPLICATION = 'Iguess.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Iguess',
-        'HOST': '',
-        'USER': 'root',
-        'PASSWORD': '541027',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -85,10 +82,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-TEMPLATE_CONTEXT_PROCESSORS = (  
-    "django.contrib.auth.context_processors.auth",  
-    "django.core.context_processors.debug",  
-    "django.core.context_processors.i18n",  
-    "django.core.context_processors.media",  
-    "django.core.context_processors.request",  
-) 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.request",
+)
