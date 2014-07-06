@@ -1,50 +1,39 @@
-<html>
-<head>
-	<title></title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
 <div class="container">
-	{% if request.user.is_authenticated %}
-			<div class="pull-right">
-				<a href=#>欢迎您：{{request.user}}</a>
-				<a class="btn danger small" href="/logout/">注销</a>
-			</div>
-	{% else %}
-			<div class="pull-right">
-				<a href=#>欢迎您：youke</a>
-				<a class="btn danger small" href="/login/">login</a>
-				<a class="btn danger small" href="/register/">register</a>
-			</div>
-	{% endif %}
-</div>
-<div class="topicBox">
-    {% for topic in topics %}
-    <form class="topic" action="/choose/" method="post">
-        <input type="hidden" name="id" value="{{topic.id}}">
-        <span>{{topic.title}}</span>
-        <br>
-        <p>{{topic.description}}</p>
-        <div class="leftbox">
-            <input type="radio" name="choice" value="0">{{topic.option1}}
+    <div>       
+        <div class="searchBox pull-right">
+            <form class="search" action="/index/" method="get">
+                {{form}}
+                <input type="submit" value="search" class="btn btn-warning">
+            </form>
         </div>
-        <div class="rightbox">
-            <input type="radio" name="choice" value="1">{{topic.option2}}
+    <h2>Topics here<small>seize your pleasure here</small></h2>
+    </div>
+    <div class="topicBox">
+        {% for topic in topics %}
+        <div class="col-lg-12 panel-body">
+        <form class="topic" action="/choose/" method="post">
+            <input type="hidden" name="id" value="{{topic.id}}">
+            <h3>Title: {{topic.title}}</h3>
+            <a class="list-group-item">{{topic.description}}</a>
+            <div class="">
+                <span class="col-md-6">
+                    <input type="radio" name="choice" value="0">{{topic.option1}}
+                </span>
+                <span class="col-md-6">
+                    <input type="radio" name="choice" value="1" >{{topic.option2}}
+                </span>
+            </div>
+            <div href="">
+                <input type="submit" value="submit" class="btn btn-success pull-right">
+            </div>
+        </form>
         </div>
-        <input type="submit" value="submit">
-
-
-
-    </form>
-    {% endfor %}
+        {% endfor %}
+    </div>
 </div>
-<div class="searchBox">
-    <form class="search" action="/index/" method="get">
-        {{form}}
-        <input type="submit" value="search">
-    </form>
-</div>
-</body>
-</html>
-
+{% endblock %}
 
 

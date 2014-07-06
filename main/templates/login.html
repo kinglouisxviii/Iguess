@@ -5,6 +5,11 @@
 
 <!-- 可选的Bootstrap主题文件（一般不用引入） -->
 	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+	<style>
+		.container{
+			padding-top: 50px;
+		}
+	</style>
 </head>
 
 <body>
@@ -19,7 +24,8 @@
 						<span style="color: #CC3300;">{{errorvalue}}</span>
 						{% endif %}
 					</div>
-					<div class="form-group"><input type="submit" value="submit" class="btn btn-success"></div>
+					<div class="form-group"><input type="submit" value="submit" class="btn btn-success pull-right"></div>
+					<div class="form-group"><a class="btn btn-primary pull-right" href="/index/" style="margin-right: 5px;">return</a></div>
 			</div>
 		</div>
 	</form>
