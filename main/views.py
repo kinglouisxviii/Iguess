@@ -62,7 +62,7 @@ def index(request):
 		title = request.GET['title']
 		topics = topics.filter(title__icontains=title)
 	topics = topics[:6]
-	return render(request, 'index.html', {'topics': topics, 'form': form},)
+	return render(request, 'index.html', {'topics': topics, 'form': form})
 
 def choose(request):
 	if request.method == 'POST':
