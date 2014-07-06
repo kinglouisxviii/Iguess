@@ -12,7 +12,7 @@ class Player(models.Model):
 
 class Topic(models.Model):
 	"""docstring for Topic"""
-	ditle = models.CharField(max_length = 40)
+	title = models.CharField(max_length = 40)
 	due = models.DateTimeField()
 	reward = models.IntegerField()
 	answer = models.BooleanField()

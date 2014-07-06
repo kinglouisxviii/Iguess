@@ -53,8 +53,13 @@ def logout_view(request):
 	return render_to_response('index.html')
 
 def index(request):
-	topics = Topic.objects.filter(due__gte = datetime.now()).order_by('?')[:6]
-	return render(request, 'index.html')
+	topics = Topic.objects.filter(due__gte = datetime.now()).order_by('?')
+	if 'title' in request.GET:
+		title = request.GET['title']
+		topics = topics.filter(title__icontains=title)
+
+	topics = topics[:6]
+	return render(request, 'index.html', {'topics': topics})
 
 def choose(request):
 	if request.method == 'POST':
@@ -69,6 +74,7 @@ def choose(request):
 			new.save(commit = True)
 			return HttpResponseRedirect('/index/')
 		return HttpResponseRedirect('/login/', {'request': request})
+
 
 
 
