@@ -1,3 +1,6 @@
 from django.contrib import admin
+from main.models import *
 
-# Register your models here.
+admin.site.register(Player)
+admin.site.register(Topic)
+admin.site.register(Player_Topic)

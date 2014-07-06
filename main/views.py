@@ -66,12 +66,12 @@ def choose(request):
 		if request.user.is_authenticated():
 			user_id = request.user.id
 			topic_id = request.POST['id']
-			choice = request.POST['choice']
-			new = Player_Topic
+			choice = bool(request.POST['choice'])
+			new = Player_Topic()
 			new.user_id = user_id
 			new.topic_id = topic_id
 			new.choice = choice
-			new.save(commit = True)
+			new.save()
 			return HttpResponseRedirect('/index/')
 		return HttpResponseRedirect('/login/', {'request': request})
 

@@ -6,16 +6,36 @@
 <div class="container">
 	{% if request.user.is_authenticated %}
 			<div class="pull-right">
-				<a href=#>欢迎您：{{request.user}}</a>  
+				<a href=#>欢迎您：{{request.user}}</a>
 				<a class="btn danger small" href="/logout/">注销</a>
 			</div>
 	{% else %}
 			<div class="pull-right">
-				<a href=#>欢迎您：youke</a>  
+				<a href=#>欢迎您：youke</a>
 				<a class="btn danger small" href="/login/">login</a>
 				<a class="btn danger small" href="/register/">register</a>
 			</div>
 	{% endif %}
+</div>
+<div class="topicBox">
+    {% for topic in topics %}
+    <form class="topic" action="/choose/" method="post">
+        <input type="hidden" name="id" value="{{topic.id}}">
+        <span>{{topic.title}}</span>
+        <br>
+        <p>{{topic.description}}</p>
+        <div class="leftbox">
+            <input type="radio" name="choice" value="0">{{topic.option1}}
+        </div>
+        <div class="rightbox">
+            <input type="radio" name="choice" value="1">{{topic.option2}}
+        </div>
+        <input type="submit" value="submit">
+
+
+
+    </form>
+    {% endfor %}
 </div>
 </body>
 </html>
