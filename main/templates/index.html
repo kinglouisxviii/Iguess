@@ -1,1 +1,22 @@
-This is index
+
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+~~~~~~~~~~~~~~~~~~~~
+{% if request.user.is_authenticated %}
+		<div class="pull-right">
+			<a href=#>欢迎您：{{request.user}}</a>  
+			<a class="btn danger small" href="/logout/">注销</a>
+		</div>
+{% else %}
+		<div class="pull-right">
+			<a href=#>欢迎您：youke</a>  
+			<a class="btn danger small" href="/login/">login</a>
+			<a class="btn danger small" href="/register/">register</a>
+		</div>
+{% endif %}
+
+</body>
+</html>
