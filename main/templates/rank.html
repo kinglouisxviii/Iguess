@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div>       
+    <h2>Rank<small> Top 10</small></h2>
+    </div>
+        {% for i in rank reversed %}
+        <div class="col-lg-12 panel-body">
+            <a class="list-group-item">{{i.username}}</a>
+            <a class="list-group-item">{{i.percent}}</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

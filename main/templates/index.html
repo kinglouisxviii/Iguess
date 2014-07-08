@@ -13,7 +13,7 @@
     </div>
     <div class="topicBox">
         {% for topic in topics %}
-        <div class="col-lg-12 panel-body">
+        <div class="col-lg-6 panel-body">
         <form class="topic" action="/choose/" method="post">
             <input type="hidden" name="id" value="{{topic.id}}">
             <h3>Title: {{topic.title}}</h3>

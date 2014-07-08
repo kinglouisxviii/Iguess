@@ -28,8 +28,6 @@ def register(request):
 
 def login_view(request):
 	error = False
-	if request.user.is_authenticated():
-		return HttpResponse('already authenticate')
 	if request.method == 'POST':
 		username = request.POST['username']
 		password = request.POST['password']
@@ -71,7 +69,7 @@ def choose(request):
 			topic_ID = request.POST['id']
 			if Player_Topic.objects.filter(user_id = user_ID).exists():
 				return HttpResponse('You have already bet this topic')
-			if Topic.objects.get(topic_id = topic_ID).due < datetime.datetime.now():
+			if Topic.objects.get(topic_id = topic_ID).due > datetime.datetime.now():
 				return HttpResponse('This topic is already due')
 			choice = bool(int(request.POST['choice']))
 			new = Player_Topic()
@@ -82,7 +80,12 @@ def choose(request):
 			return HttpResponseRedirect('/index/')
 		return HttpResponseRedirect('/login/', {'request': request})
 
-
+def rank(request):
+	if request.user.is_authenticated():
+		rank = Player.objects.order_by('percent')
+		rank = rank[:10]
+		return render(request,'rank.html',{'rank': rank})
+	return render(request,'rank.html')
 
 
 
