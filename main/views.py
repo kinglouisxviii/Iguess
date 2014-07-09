@@ -19,7 +19,8 @@ def register(request):
 		if form.is_valid():
 			confirm = User.objects.create_user(username = form.cleaned_data['username'], email = form.cleaned_data['email'], password = form.cleaned_data['password2'])
 			confirm.save
-			foreign = Player(username = form.cleaned_data['username'], email = form.cleaned_data['email'], totalgame = 0, totalwin = 0, times_today = 0, percent = 0)
+			u = User.objects.get(username = form.cleaned_data['username'])
+			foreign = Player(username = form.cleaned_data['username'], email = form.cleaned_data['email'], totalgame = 0, totalwin = 0, times_today = 0, percent = 0, money = 100, user_id = u.id)
 			foreign.save()
 			return HttpResponseRedirect('/login/')
 	else:
@@ -82,7 +83,7 @@ def choose(request):
 
 def rank(request):
 	if request.user.is_authenticated():
-		rank = Player.objects.order_by('percent')
+		rank = Player.objects.order_by('money')
 		rank = rank[:10]
 		return render(request,'rank.html',{'rank': rank})
 	return render(request,'rank.html')
