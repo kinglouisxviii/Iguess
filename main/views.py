@@ -61,6 +61,10 @@ def index(request):
 	if 'title' in request.GET:
 		title = request.GET['title']
 		topics = topics.filter(title__icontains=title)
+	# exclude topics already answered
+	for tpc in topics:
+		if Player_Topic.objects.filter(topic_id = tpc.id, user_id = request.user.id).exists():
+			topics = topics.exclude(id = tpc.id)
 	topics = topics[:6]
 	return render(request, 'index.html', {'topics': topics, 'form': form})
 
@@ -69,9 +73,9 @@ def choose(request):
 		if request.user.is_authenticated():
 			user_ID = request.user.id
 			topic_ID = request.POST['id']
-			if Player_Topic.objects.filter(user_id = user_ID).exists():
+			if Player_Topic.objects.filter(user_id = user_ID, topic_id = topic_ID).exists():
 				return HttpResponse('You have already bet this topic')
-			if Topic.objects.get(topic_id = topic_ID).due < datetime.datetime.now():
+			if Topic.objects.get(id = topic_ID).due.replace(tzinfo=None) < datetime.now():
 				return HttpResponse('This topic is already due')
 			choice = bool(int(request.POST['choice']))
 			new = Player_Topic()
