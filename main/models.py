@@ -9,6 +9,8 @@ class Player(models.Model):
 	totalwin = models.IntegerField()
 	totalgame = models.IntegerField()
 	percent = models.FloatField()
+	money = models.IntegerField()
+	user_id = models.IntegerField()
 
 class Topic(models.Model):
 	"""docstring for Topic"""

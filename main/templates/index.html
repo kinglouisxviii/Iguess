@@ -16,17 +16,18 @@
         <div class="col-lg-12 panel-body">
         <form class="topic" action="/choose/" method="post">
             <input type="hidden" name="id" value="{{topic.id}}">
-            <h3>Title: {{topic.title}}</h3>
-            <a class="list-group-item">{{topic.description}}</a>
+            <a class="list-group-item active"><h4>Title: {{topic.title}}</h4></a>
+            <a class="list-group-item" style="height: 250px;"><strong>Topic Discription: </strong><br>{{topic.description}}</a>
             <div class="">
-                <span class="col-md-6">
+                <span class="col-md-6 list-group-item">
                     <input type="radio" name="choice" value="0">{{topic.option1}}
                 </span>
-                <span class="col-md-6">
+                <span class="col-md-6 list-group-item">
                     <input type="radio" name="choice" value="1" >{{topic.option2}}
                 </span>
             </div>
-            <div href="">
+            <div>
+                <a href="/index" class="btn btn-primary pull-right">Change One!</a>
                 <input type="submit" value="submit" class="btn btn-success pull-right">
             </div>
         </form>
