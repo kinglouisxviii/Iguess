@@ -11,6 +11,7 @@ class Player(models.Model):
 	percent = models.FloatField()
 	money = models.IntegerField()
 	user_id = models.IntegerField()
+	last_reg = models.DateTimeField()
 
 class Topic(models.Model):
 	"""docstring for Topic"""
@@ -18,10 +19,11 @@ class Topic(models.Model):
 	due = models.DateTimeField()
 	reward = models.IntegerField()
 	answer = models.BooleanField()
-	whom = models.CharField(max_length = 16)
 	description = models.TextField()
 	option1 = models.CharField(max_length = 100)
 	option2 = models.CharField(max_length = 100)
+	rate1 = models.FloatField()
+	rate2 = models.FloatField()
 
 class Player_Topic(models.Model):
 	"""docstring for Topic"""

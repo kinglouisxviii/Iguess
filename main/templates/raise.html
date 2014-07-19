@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="contents">
+	<div class="col-md-6 col-md-offset-3">
+		<form action="" method="post">
+			<h2>Raise One Topic!</h2>
+			<div class="form-group">
+				<label for="username">Titile: </label><input type="text" name="username" placeholder="Enter your username here" class="form-control">
+				<span class="errors">{{error_user}}</span>
+			</div>
+			<div class="form-group">
+				<label for="email">Email: </label><input type="text" name="email" placeholder="Enter you email here" class="form-control">
+				<span class="errors">{{error_email}}</span>
+			</div>
+			<div class="form-group">
+				<label for="password1">Password: </label><input type="password" name="password1" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="password2">Password Confirm: </label><input type="password" name="password2" class="form-control">
+				<span class="errors">{{error_password}}</span>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Confirm and Submit" class="btn btn-primary btn-block">
+			</div>
+
+			<div class="form-group">
+				<a class="btn btn-warning btn-block" href="/index/">Return</a>
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock %}

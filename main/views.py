@@ -20,6 +20,7 @@ def register(request):
 			confirm = User.objects.create_user(username = form.cleaned_data['username'], email = form.cleaned_data['email'], password = form.cleaned_data['password2'])
 			confirm.save
 			u = User.objects.get(username = form.cleaned_data['username'])
+			
 			foreign = Player(username = form.cleaned_data['username'], email = form.cleaned_data['email'], totalgame = 0, totalwin = 0, times_today = 0, percent = 0, money = 100, user_id = u.id)
 			foreign.save()
 			return HttpResponseRedirect('/login/')
@@ -87,7 +88,5 @@ def rank(request):
 		rank = rank[:10]
 		return render(request,'rank.html',{'rank': rank})
 	return render(request,'rank.html')
-
-
 
 
