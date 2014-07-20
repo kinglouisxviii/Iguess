@@ -11,7 +11,7 @@ class Player(models.Model):
 	percent = models.FloatField()
 	money = models.IntegerField()
 	user_id = models.IntegerField()
-	last_reg = models.DateTimeField()
+	last_reg = models.DateField()
 
 class Topic(models.Model):
 	"""docstring for Topic"""

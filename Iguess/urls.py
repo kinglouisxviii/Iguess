@@ -15,4 +15,5 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'main.views.logout_view'),
     url(r'^choose/$', 'main.views.choose'),
     url(r'^rank/$','main.views.rank'),
+    url(r'^myaccount/$','main.views.myaccount'),
 )

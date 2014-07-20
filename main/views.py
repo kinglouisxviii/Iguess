@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from main.models import Player
 from main.models import Topic
-from datetime import datetime
+from datetime import *
 from main.models import Player_Topic
 # Create your views here.
 def register(request):
@@ -19,14 +19,13 @@ def register(request):
 		if form.is_valid():
 			confirm = User.objects.create_user(username = form.cleaned_data['username'], email = form.cleaned_data['email'], password = form.cleaned_data['password2'])
 			confirm.save
-			u = User.objects.get(username = form.cleaned_data['username'])
-			
-			foreign = Player(username = form.cleaned_data['username'], email = form.cleaned_data['email'], totalgame = 0, totalwin = 0, times_today = 0, percent = 0, money = 100, user_id = u.id)
+			u = User.objects.get(username = form.cleaned_data['username'])	
+			foreign = Player(username = u, email = form.cleaned_data['email'], totalgame = 0, totalwin = 0, times_today = 0, percent = 0, money = 100, user_id = u.id, last_reg = date.today())
 			foreign.save()
 			return HttpResponseRedirect('/login/')
 	else:
 		form = RegisterForm()
-	return render_to_response('register.html',{'error_user': error['username'], 'error_email': error['email'], 'error_password': error['password2']})
+	return render_to_response('register.html', {'error_user': error.get('username'), 'error_email': error.get('email'), 'error_password': error.get('password2')})
 
 def login_view(request):
 	error = False
@@ -37,6 +36,13 @@ def login_view(request):
 		if user is not None:
 			if user.is_active:
 				login(request, user)
+				try:
+					p = Player.objects.get(username = username)
+				except ObjectDoesNotExist:
+					return HttpResponseRedirect('/index/')
+				if p.last_reg < date.today():
+					p.money += 0
+					p.save()
 				return HttpResponseRedirect('/index/')
 			else:
 				error = True
@@ -94,3 +100,10 @@ def rank(request):
 	return render(request,'rank.html')
 
 
+def myaccount(request):
+	if request.user.is_authenticated():
+		userid = request.user.id
+		p = Player.objects.get(user_id = userid)
+		return render(request,'account.html',{'p': p})
+	else:
+		return HttpResponseRedirect('/index',{'request', request})
