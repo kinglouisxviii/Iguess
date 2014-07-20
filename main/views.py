@@ -75,7 +75,7 @@ def choose(request):
 			topic_ID = request.POST['id']
 			if Player_Topic.objects.filter(user_id = user_ID, topic_id = topic_ID).exists():
 				return HttpResponse('You have already bet this topic')
-	if Topic.objects.get(id = topic_ID).due.replace(tzinfo=None) < datetime.now():
+			if Topic.objects.get(id = topic_ID).due.replace(tzinfo=None) < datetime.now():
 				return HttpResponse('This topic is already due')
 			choice = bool(int(request.POST['choice']))
 			new = Player_Topic()
