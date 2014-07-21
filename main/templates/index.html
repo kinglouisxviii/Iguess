@@ -18,12 +18,22 @@
             <input type="hidden" name="id" value="{{topic.id}}">
             <a class="list-group-item active"><h4>Title: {{topic.title}}</h4></a>
             <a class="list-group-item" style="height: 250px;"><strong>Topic Discription: </strong><br>{{topic.description}}</a>
-            <div class="">
-                <span class="col-md-6 list-group-item">
+            <div>
+                <div class="col-md-2 list-group-item">Choice: </div>
+                <div class="col-md-5 list-group-item">
                     <input type="radio" name="choice" value="0">{{topic.option1}}
-                </span>
-                <span class="col-md-6 list-group-item">
+                </div>
+                <div class="col-md-5 list-group-item">
                     <input type="radio" name="choice" value="1" >{{topic.option2}}
+                </div>
+            </div>
+            <div>
+                <span class="col-md-2 list-group-item">Odds</span>
+                <span class="col-md-5 list-group-item">
+                    {{topic.rate1}}
+                </span>
+                <span class="col-md-5 list-group-item">
+                    {{topic.rate2}}
                 </span>
             </div>
             <div>

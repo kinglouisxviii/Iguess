@@ -3,7 +3,7 @@ from django import forms
 from main.RegisterForm import *
 from main.LoginForm import *
 from django.http import *
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import *
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from main.models import Player
@@ -36,12 +36,10 @@ def login_view(request):
 		if user is not None:
 			if user.is_active:
 				login(request, user)
-				try:
-					p = Player.objects.get(username = username)
-				except ObjectDoesNotExist:
-					return HttpResponseRedirect('/index/')
+				p = Player.objects.get(username = username)
 				if p.last_reg < date.today():
-					p.money += 0
+					p.money += 10
+					p.last_reg = date.today()
 					p.save()
 				return HttpResponseRedirect('/index/')
 			else:
@@ -83,6 +81,9 @@ def choose(request):
 				return HttpResponse('You have already bet this topic')
 			if Topic.objects.get(id = topic_ID).due.replace(tzinfo=None) < datetime.now():
 				return HttpResponse('This topic is already due')
+			p = Player.objects.get(user_id = user_ID)
+			p.totalgame += 1
+			p.save()
 			choice = bool(int(request.POST['choice']))
 			new = Player_Topic()
 			new.user_id = user_ID
