@@ -10,6 +10,7 @@ from main.models import Player
 from main.models import Topic
 from datetime import *
 from main.models import Player_Topic
+from django.contrib.admin.views.decorators import staff_member_required
 # Create your views here.
 def register(request):
 	error = {'username': '', 'email': '', 'password2': ''}
@@ -61,7 +62,7 @@ class searchForm(forms.Form):
 
 def index(request):
 	form = searchForm(request.GET)
-	topics = Topic.objects.filter(due__gte = datetime.now()).order_by('?')
+	topics = Topic.objects.filter(due__gte=datetime.now(), active=True).order_by('?')
 	if 'title' in request.GET:
 		title = request.GET['title']
 		topics = topics.filter(title__icontains=title)
@@ -117,3 +118,33 @@ def myaccount(request):
 		return render(request,'account.html',{'p': p})
 	else:
 		return HttpResponseRedirect('/index',{'request', request})
+
+@staff_member_required
+def edit(request):
+	if request.method == 'POST':
+		topic_ID = request.POST['id']
+		choice = bool(int(request.POST['choice']))
+		topic = Topic.objects.get(id = topic_ID)
+		topic.active = False
+		topic.answer = choice
+		user_bets = Player_Topic.objects.filter(topic_id = topic_ID)
+		for obj in user_bets:
+			obj.checked = True
+			player = Player.objects.get(user_id = obj.user_id)
+			if obj.choise == choice:
+				if not choice:
+					player.money += obj.bet*topic.rate1
+				else:
+					player.money += obj.bet*topic.rate2
+		return HttpResponseRedirect('/edit/')
+
+	form = searchForm(request.GET)
+	topics = Topic.objects.filter(due__gte=datetime.now(), active=True).order_by('due')
+	if 'title' in request.GET:
+		title = request.GET['title']
+		topics = topics.filter(title__icontains=title)
+	return render(request, 'index.html', {'topics': topics, 'form': form})
+
+
+
+

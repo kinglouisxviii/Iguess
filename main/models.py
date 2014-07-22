@@ -24,6 +24,7 @@ class Topic(models.Model):
 	option2 = models.CharField(max_length = 100)
 	rate1 = models.FloatField()
 	rate2 = models.FloatField()
+	active = models.BooleanField(default = True)
 
 class Player_Topic(models.Model):
 	"""docstring for Topic"""
@@ -31,3 +32,4 @@ class Player_Topic(models.Model):
 	topic_id = models.IntegerField()
 	choice = models.BooleanField()
 	bet = models.IntegerField()
+	checked = models.BooleanField(default = False)
