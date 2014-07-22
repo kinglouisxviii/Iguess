@@ -19,7 +19,7 @@ def register(request):
 		if form.is_valid():
 			confirm = User.objects.create_user(username = form.cleaned_data['username'], email = form.cleaned_data['email'], password = form.cleaned_data['password2'])
 			confirm.save
-			u = User.objects.get(username = form.cleaned_data['username'])	
+			u = User.objects.get(username = form.cleaned_data['username'])
 			foreign = Player(username = u, email = form.cleaned_data['email'], totalgame = 0, totalwin = 0, times_today = 0, percent = 0, money = 100, user_id = u.id, last_reg = date.today())
 			foreign.save()
 			return HttpResponseRedirect('/login/')
@@ -77,18 +77,27 @@ def choose(request):
 		if request.user.is_authenticated():
 			user_ID = request.user.id
 			topic_ID = request.POST['id']
+			bet = request.POST['bet']
+			try:
+				bet = int(bet)
+			except:
+				return HttpResponse('please enter an integer bet')
 			if Player_Topic.objects.filter(user_id = user_ID, topic_id = topic_ID).exists():
 				return HttpResponse('You have already bet this topic')
 			if Topic.objects.get(id = topic_ID).due.replace(tzinfo=None) < datetime.now():
 				return HttpResponse('This topic is already due')
 			p = Player.objects.get(user_id = user_ID)
+			if(p.money < bet):
+				return HttpResponse('You don\'t have enough money for this bet\nYou have only '+p.money+' left')
 			p.totalgame += 1
+			p.money -= bet
 			p.save()
 			choice = bool(int(request.POST['choice']))
 			new = Player_Topic()
 			new.user_id = user_ID
 			new.topic_id = topic_ID
 			new.choice = choice
+			new.bet = bet
 			new.save()
 			return HttpResponseRedirect('/index/')
 		return HttpResponseRedirect('/login/', {'request': request})

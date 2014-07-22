@@ -30,3 +30,4 @@ class Player_Topic(models.Model):
 	user_id = models.IntegerField()
 	topic_id = models.IntegerField()
 	choice = models.BooleanField()
+	bet = models.IntegerField()
