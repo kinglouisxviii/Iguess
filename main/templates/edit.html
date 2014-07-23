@@ -7,7 +7,7 @@
     <div class="topicBox">
         {% for topic in topics %}
         <div class="col-lg-12 panel-body">
-        <form class="topic" action="/choose/" method="post">
+        <form class="topic" action="/edit/" method="post">
             <input type="hidden" name="id" value="{{topic.id}}">
             <a class="list-group-item active"><h4>Title: {{topic.title}}</h4> <span style="color: red">{{topic.due}}</span></a>
             <div>

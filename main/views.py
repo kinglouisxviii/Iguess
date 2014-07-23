@@ -134,14 +134,17 @@ def edit(request):
 		topic.active = False
 		topic.answer = choice
 		user_bets = Player_Topic.objects.filter(topic_id = topic_ID)
+		topic.save()
 		for obj in user_bets:
 			obj.checked = True
 			player = Player.objects.get(user_id = obj.user_id)
-			if obj.choise == choice:
+			if obj.choice == choice:
 				if not choice:
 					player.money += obj.bet*topic.rate1
 				else:
 					player.money += obj.bet*topic.rate2
+			obj.save()
+			player.save()
 		return HttpResponseRedirect('/edit/')
 
 	form = searchForm(request.GET)
