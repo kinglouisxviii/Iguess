@@ -16,4 +16,5 @@ urlpatterns = patterns('',
     url(r'^choose/$', 'main.views.choose'),
     url(r'^rank/$','main.views.rank'),
     url(r'^myaccount/$','main.views.myaccount'),
+    url(r'^edit/$','main.views.edit'),
 )

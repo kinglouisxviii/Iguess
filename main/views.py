@@ -37,11 +37,15 @@ def login_view(request):
 		if user is not None:
 			if user.is_active:
 				login(request, user)
-				p = Player.objects.get(username = username)
-				if p.last_reg < date.today():
-					p.money += 10
-					p.last_reg = date.today()
-					p.save()
+				try:
+					p = Player.objects.get(username = username)
+				except Player.DoesNotExist:
+					pass
+				else:
+					if p.last_reg < date.today():
+						p.money += 10
+						p.last_reg = date.today()
+						p.save()
 				return HttpResponseRedirect('/index/')
 			else:
 				error = True
@@ -89,7 +93,7 @@ def choose(request):
 				return HttpResponse('This topic is already due')
 			p = Player.objects.get(user_id = user_ID)
 			if(p.money < bet):
-				return HttpResponse('You don\'t have enough money for this bet\nYou have only '+p.money+' left')
+				return HttpResponse('You don\'t have enough money for this bet\nYou have only '+ str(p.money) +' left')
 			p.totalgame += 1
 			p.money -= bet
 			p.save()
@@ -110,11 +114,13 @@ def rank(request):
 		return render(request,'rank.html',{'rank': rank})
 	return render(request,'rank.html')
 
-
 def myaccount(request):
 	if request.user.is_authenticated():
 		userid = request.user.id
-		p = Player.objects.get(user_id = userid)
+		try:
+			p = Player.objects.get(user_id = userid)
+		except Player.DoesNotExist:
+			return HttpResponse('I\' m the superuser')
 		return render(request,'account.html',{'p': p})
 	else:
 		return HttpResponseRedirect('/index',{'request', request})
@@ -143,7 +149,7 @@ def edit(request):
 	if 'title' in request.GET:
 		title = request.GET['title']
 		topics = topics.filter(title__icontains=title)
-	return render(request, 'index.html', {'topics': topics, 'form': form})
+	return render(request, 'edit.html', {'topics': topics, 'form': form})
 
 
 
