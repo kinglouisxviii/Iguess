@@ -132,13 +132,13 @@ def myguess(request):
 	if request.user.is_authenticated():
 		userid = request.user.id
 		tp = Player_Topic.objects.filter(user_id = userid)
-		topics = Topic()
+		topics = []
 		for i in tp:
 			item = Topic.objects.get(id = i.topic_id)
 			topics = topics.add(item)
 		return render(request,'index.html',{'topics': topics})
 	else:
-		return HttpResponseRedirect('/index',{'request', request}) 
+		return HttpResponseRedirect('/index',{'request', request})
 
 @staff_member_required
 def edit(request):
