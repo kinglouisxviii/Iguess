@@ -91,19 +91,22 @@ def choose(request):
 				return HttpResponse('You have already bet this topic')
 			if Topic.objects.get(id = topic_ID).due.replace(tzinfo=None) < datetime.now():
 				return HttpResponse('This topic is already due')
-			p = Player.objects.get(user_id = user_ID)
-			if(p.money < bet):
-				return HttpResponse('You don\'t have enough money for this bet\nYou have only '+ str(p.money) +' left')
-			p.totalgame += 1
-			p.money -= bet
-			p.save()
-			choice = bool(int(request.POST['choice']))
-			new = Player_Topic()
-			new.user_id = user_ID
-			new.topic_id = topic_ID
-			new.choice = choice
-			new.bet = bet
-			new.save()
+			try:
+				p = Player.objects.get(user_id = user_ID)
+				if(p.money < bet):
+					return HttpResponse('You don\'t have enough money for this bet\nYou have only '+ str(p.money) +' left')
+				p.totalgame += 1
+				p.money -= bet
+				p.save()
+				choice = bool(int(request.POST['choice']))
+				new = Player_Topic()
+				new.user_id = user_ID
+				new.topic_id = topic_ID
+				new.choice = choice
+				new.bet = bet
+				new.save()
+			except Player.DoesNotExist:
+				pass
 			return HttpResponseRedirect('/index/')
 		return HttpResponseRedirect('/login/', {'request': request})
 
@@ -139,11 +142,13 @@ def edit(request):
 			obj.checked = True
 			player = Player.objects.get(user_id = obj.user_id)
 			if obj.choice == choice:
+				player.totalwin += 1
 				if not choice:
 					player.money += obj.bet*topic.rate1
 				else:
 					player.money += obj.bet*topic.rate2
 			obj.save()
+			player.percent = (player.totalwin / player.totalgame)*100
 			player.save()
 		return HttpResponseRedirect('/edit/')
 
