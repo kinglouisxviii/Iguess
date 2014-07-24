@@ -44,14 +44,14 @@
 			<div class="collapse navbar-collapse" id="navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li><a href="/myaccount/">My Account</a></li>
-					<li><a href="#section-gallery">Gallery</a></li>
+					<li><a href="#section-gallery">My Guess</a></li>
 					<li><a href="#section-contact">Contact</a></li>
 					<li><a href="/rank/">Rank</a></li>
 				</ul>
 				<div style="margin-top: 9px;">
 				{% if request.user.is_authenticated %}
 					<div class="navbar-right">
-						<a href=#>欢迎您：{{request.user}}</a>
+						<a href="/myaccount/">欢迎您：{{request.user}}</a>
 						<a class="btn btn-danger" href="/logout/">注销</a>
 						{% if request.user.is_staff %}
 						<a href="/edit/" class="btn btn-danger">EDIT</a>

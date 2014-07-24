@@ -17,7 +17,6 @@ class Topic(models.Model):
 	"""docstring for Topic"""
 	title = models.CharField(max_length = 40)
 	due = models.DateTimeField()
-	reward = models.IntegerField()
 	answer = models.BooleanField()
 	description = models.TextField()
 	option1 = models.CharField(max_length = 100)
