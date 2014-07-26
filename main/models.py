@@ -24,6 +24,8 @@ class Topic(models.Model):
 	rate1 = models.FloatField()
 	rate2 = models.FloatField()
 	active = models.BooleanField(default = True)
+	people1 = models.IntegerField(default = 0)
+	people2 = models.IntegerField(default = 0)
 
 class Player_Topic(models.Model):
 	"""docstring for Topic"""

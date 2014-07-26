@@ -95,10 +95,16 @@ def choose(request):
 				p = Player.objects.get(user_id = user_ID)
 				if(p.money < bet):
 					return HttpResponse('You don\'t have enough money for this bet\nYou have only '+ str(p.money) +' left')
+				t = Topic.objects.get(id = topic_ID)
 				p.totalgame += 1
 				p.money -= bet
 				p.save()
 				choice = bool(int(request.POST['choice']))
+				if not choice:
+					t.people1 += 1
+				else:
+					t.people2 += 1
+				t.save()
 				new = Player_Topic()
 				new.user_id = user_ID
 				new.topic_id = topic_ID
@@ -137,7 +143,8 @@ def myguess(request):
 			i = Topic.objects.get(id = i.topic_id)
 			wanted.add(i.id)
 		topics = Topic.objects.filter(id__in = wanted)
-		return render(request,'index.html',{'topics': topics})
+		form = searchForm(request.GET)
+		return render(request,'myguess.html',{'topics': topics, 'form': form})
 	else:
 		return HttpResponseRedirect('/index',{'request', request})
 

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    {% if request.user.is_authenticated %}
+    <div>
+        <div class="searchBox pull-right">
+            <form class="search" action="/index/" method="get">
+                {{form}}
+                <input type="submit" value="search" class="btn btn-warning">
+            </form>
+        </div>
+    <h2>My guess in the past<small></small></h2>
+    </div>
+
+    <div class="topicBox">
+        {% for topic in topics %}
+        <div class="col-lg-6 panel-body">
+            <input type="hidden" name="id" value="{{topic.id}}">
+            <a class="list-group-item active"><h4>Title: {{topic.title}}</h4> </a>
+            <a class="list-group-item" style="height: 250px;"><strong>Topic Discription: </strong><br>{{topic.description}}</a>
+            <div>
+                <div class="col-md-2 list-group-item">Choice: </div>
+                <div class="col-md-5 list-group-item">
+                   {{topic.option1}}
+                </div>
+                <div class="col-md-5 list-group-item">
+                    {{topic.option2}}
+                </div>
+            </div>
+            <div>
+                <span class="col-md-2 list-group-item">赔率:</span>
+                <span class="col-md-5 list-group-item">
+                    {{topic.rate1}}
+                </span>
+                <span class="col-md-5 list-group-item">
+                    {{topic.rate2}}
+                </span>
+            </div>
+        {% endfor %}
+    </div>
+  </div>
+</div>
+
+{%else%}
+<div class="container">
+   <div class="jumbotron">
+      <h1>欢迎来到IGuess!</h1>
+      <p>这是一个Django框架的实验项目。</p>
+      <p><a class="btn btn-primary btn-lg" role="button" href="/register/">注册
+         </a>
+         <a class="btn btn-success btn-lg" role="button" href="/login/">登录
+         </a>
+      </p>
+   </div>
+   {% include "footer.html" %}
+</div>
+
+{% endif %}
+
+
+{% endblock %}
+
+

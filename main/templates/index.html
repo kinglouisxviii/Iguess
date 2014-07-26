@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if not request.user.is_authenticated %}
+<div style="background-image:url(http://img4.duitang.com/uploads/item/201401/29/20140129123234_cQS4c.jpeg); height:768px; margin-top: -50px;">
+{% endif %}
 <div class="container">
-    {% if request.user.is_authenticated %}
+{% if request.user.is_authenticated %}
     <div>
         <div class="searchBox pull-right">
             <form class="search" action="/index/" method="get">
@@ -44,24 +47,27 @@
                 <input type="number" name="bet" class="pull-right" style="height:32px;" step="5" value="10" />
             </div>
         </form>
-        <a class="btn btn-info" id="bt" rel="popover" data-content="It's so simple to create a tooltop for my website!" data-original-title="See how many people use the first">show</a>
+        <a class="btn btn-info" id="tp{{topic.id}}" rel="popover" data-content="{{topic.people1}} people choose the choice 1 
+        {{topic.people2}} people choose choice 2." data-original-title="Proportion">show</a>
         </div>
+        <script src="http://libs.baidu.com/jquery/1.7.1/jquery.min.js"></script>
+        <script src="../bootstrap/twitter-bootstrap-v2/js/bootstrap-tooltip.js"></script>
+        <script src="../bootstrap/twitter-bootstrap-v2/js/bootstrap-popover.js"></script>
+        <script>
+        $(function ()
+        { $("#tp{{topic.id}}").popover();
+        });
+        </script>
         {% endfor %}
     </div>
+    {% include "footer.html" %}
 </div>
 
 
-<script src="http://libs.baidu.com/jquery/1.7.1/jquery.min.js"></script>
-<script src="../bootstrap/twitter-bootstrap-v2/js/bootstrap-tooltip.js"></script>
-<script src="../bootstrap/twitter-bootstrap-v2/js/bootstrap-popover.js"></script>
-<script>
-$(function ()
-{ $("#bt").popover();
-});
-</script>
+
 {%else%}
 <div class="container">
-   <div class="jumbotron">
+   <div class="jumbotron" style="margin-top:50px;">
       <h1>欢迎来到IGuess!</h1>
       <p>这是一个Django框架的实验项目。</p>
       <p><a class="btn btn-primary btn-lg" role="button" href="/register/">注册
@@ -71,9 +77,10 @@ $(function ()
       </p>
    </div>
 </div>
+{% include "footer.html" %}
 {% endif %}
 
 
+</div>
+
 {% endblock %}
-
-
